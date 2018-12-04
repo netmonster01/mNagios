@@ -1,3 +1,5 @@
+import { Service } from '../models';
+
 export interface Host {
     hostName: string;
     ipAddress: string;
@@ -40,4 +42,8 @@ export interface Host {
     scheduled_downtime_depth: number;
     process_performance_data: boolean;
     obsess: boolean;
+    services: Service [];
+    servicePassCount: number;
+    serviceFailCount: number;
+    showDetails: boolean;
 }

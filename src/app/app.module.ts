@@ -9,17 +9,21 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { ServicesComponent } from './components/services/services.component';
+import { HostComponent } from './components/hosts/host/host.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     HostsComponent,
-    ServicesComponent
+    ServicesComponent,
+    HostComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [NagiosService],
   bootstrap: [AppComponent]
