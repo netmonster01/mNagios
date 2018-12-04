@@ -8,9 +8,21 @@ Mobile friendly Angular 7 Frontend for Nagios Core.
 
 ![alt text](https://github.com/netmonster01/mNagios/blob/master/screenshot2.png)
 
+Edit the apache2.conf /etc/apache2/apache2.conf file and add the following to allow cors.
+
+```
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT"
+Header always set Access-Control-Max-Age "1000"
+Header always set Access-Control-Allow-Headers "x-requested-with, Content-Type,$
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200]
+```
+
 Clone this repository to /var/www/mNagios.
 
-Modify apache and add the following to the nagios.conf file.
+Create a config file to hold our alias. /etc/apache2/sites-enabled/mNagios.cfg and add the following.
 
 ```
 Alias /mNagios "/var/www/mNagios"
