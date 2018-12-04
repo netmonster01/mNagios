@@ -18,7 +18,7 @@
       {{currentHost.plugin_output}}
   </div>
 </div>
-<div class="row" *ngIf="currentHost.showDetails" [@openClose]="isOpen ? 'open' : 'closed'">
+<div class="row" *ngIf="currentHost.showDetails">
     <div class="col-sm-12">
       <div *ngFor="let service of currentHost.services; let i = index">
           <div class="row">
