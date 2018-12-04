@@ -1,0 +1,60 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+$log-error: #bd2130;
+$log-info: #007bff;
+$log-pass: #2fd132;
+$log-warn: #f36d33;
+$empty: #f1f1f1;
+$log-debug: #bebaba;
+$light-txt: #ffffff;
+$dark-txt: #3d3c3c;
+.status-up {
+    background-color: $log-pass;
+    color: $light-txt;
+}
+.status-down {
+    background-color: $log-error;
+    color: $light-txt;
+}
+.row-space {
+    padding: 1px;
+}
+
+.row-div {
+    border: white 1px solid;
+}
+.row-bg {
+    background-color: $log-info;
+    color: $light-txt;
+}
+.row-empty {
+    background-color: $empty;
+    color: $light-txt;
+}
+
+.ok{
+    color: $light-txt;
+    background-color: $log-pass;
+}
+.warning{
+    color: $light-txt;
+    background-color: $log-warn
+}
+
+.critical{
+    color: $light-txt;
+    background-color: $log-error;
+}
+.unknown{
+    color: $light-txt;
+    background-color: $log-debug;
+}
+.pending{
+    color: $light-txt;
+    background-color: $log-debug;
+}
+.services {
+    background-color: $empty;
+    color: $dark-txt;
+}

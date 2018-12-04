@@ -1,0 +1,77 @@
+<div class="container" *ngIf="showAddNew">
+  <div class="row">
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
+    <h1>Add new host</h1>
+    <form>
+    <div class="form-group">
+      <label for="hostName">Host Name</label>
+      <input type="text" class="form-control" id="hostName" aria-describedby="hostNameHelp" placeholder="Enter Host Name">
+    </div>
+    <div class="form-group">
+      <label for="ipAddress">Ip Address</label>
+      <input type="text" class="form-control" id="ipAddress" placeholder="Ip Address">
+    </div>
+    <button type="submit" (click)="submitNewHost()" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<div class="col-sm-4"></div>
+ &nbsp;
+</div>
+</div>
+<div class="container" *ngIf="counts">
+  <h1>Services</h1>
+  <div class="row">
+    <div class="col-sm-2 services row-div">Services</div>
+    <div class="col-sm-2 ok text-center row-div">{{ counts.ok }}</div>
+    <div class="col-sm-2 warning text-center row-div" >{{ counts.warning }}</div>
+    <div class="col-sm-2 critical text-center row-div">{{ counts.critical }}</div>
+    <div class="col-sm-2 unknown text-center row-div">{{ counts.unknown }}</div>
+    <div class="col-sm-2 pending text-center row-div">{{ counts.pending }}</div>
+  </div>
+</div>
+<div class="container" *ngIf="hosts">
+  <h1>Hosts</h1>
+  <div *ngFor="let host of hosts" (click)=showDetails(host)>
+    <div class="row">
+      <div class="col-sm-3 row-div" [class.status-up]="host.status == 2" [class.status-down]="host.status == 4" >
+        {{host.name}}
+      </div>
+      <!-- <div class="d-none d-sm-block col-sm-1 text-center row-div" [class.status-up]="host.status == 2" [class.status-down]="host.status == 4" >
+        {{host.txtStatus}}
+      </div> -->
+      <div class="d-none d-sm-block col-sm-1 row-div status-up text-center">
+          {{host.servicePassCount}}
+      </div>
+      <div class="d-none d-sm-block col-sm-1 row-div status-down text-center">
+          {{host.serviceFailCount}}
+      </div>
+      <div class="d-none d-sm-block col-sm-2 row-div row-bg">
+          {{host.last_check | date:'short' }}
+      </div>
+      <div class="d-none d-sm-block col-sm-5 row-div row-bg">
+          {{host.plugin_output}}
+      </div>
+    </div>
+    <div class="row" *ngIf="host.showDetails">
+        <div class="col-sm-12">
+          <div *ngFor="let service of host.services; let i = index">
+              <div class="row">
+                  <div class="d-none d-sm-block col-sm-2 row-empty">
+                      &nbsp;
+                  </div>
+                <div class="col-sm-3 row-div" [class.status-up]="service.status == 2" [class.status-down]="service.status == 4"  >
+                  {{service.description}}
+                </div>
+                <div class="col-sm-2 row-div row-bg" >
+                    {{service.last_check | date:'short' }}
+                </div>
+                <div class="col-sm-5 row-div row-bg" >
+                    {{service.plugin_output}}
+                </div>
+              </div>
+            </div>
+            </div>
+      </div>
+  </div>
+</div>
