@@ -20,6 +20,7 @@
 </div>
 </div>
 <div class="container" *ngIf="counts">
+  
   <h1>Services</h1>
   <div class="row">
     <div class="col-sm-2 services row-div">Services</div>
@@ -36,3 +37,4 @@
     <app-host [host]="host"></app-host>
   </div>
 </div>
+<app-charts [counts]="counts" [hostcounts]="hostCounts"></app-charts>

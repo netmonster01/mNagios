@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Host } from '../models';
+import { Host, Service } from '../models';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,14 @@ export class NagiosService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization:
-        
+        'Basic bmFnaW9zYWRtaW46bmFnaW9zYWRtaW4='
     })
   };
 
   getHosts() {
-    return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=hostlist&details=true',
+    // return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=hostlist&details=true',
+    // this.httpOptions).catch(this.handleError);
+    return this.http.get<any>('/assets/hosts.json',
     this.httpOptions).catch(this.handleError);
   }
 
@@ -30,10 +33,25 @@ export class NagiosService {
   //   });
   // }
 
+  // getServices() {
+  //   return this.http.get<any>('/assets/services.json',
+  //   this.httpOptions).pipe((
+  //     map(data => {
+  //       console.log(data, data.data.servicelist);
+  //       return data.data.servicelist.map(element => {
+  //         return { hostName: element['name'], viewValue: element['name'] };
+  //       });
+  //     })
+  //   )).catch(this.handleError);
+  //   // return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=servicelist&details=true',
+  //   // this.httpOptions).catch(this.handleError);
+  // }
+
   getServices() {
-    return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=servicelist&details=true',
+    return this.http.get<any>('/assets/services.json',
     this.httpOptions).catch(this.handleError);
   }
+
 
   getHost(host: string) {
     return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=host&hostname=' + host,
@@ -41,13 +59,17 @@ export class NagiosService {
   }
 
   getHostCount() {
-    return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=hostcount',
+    return this.http.get<any>('/assets/hostCount.json',
     this.httpOptions).catch(this.handleError);
+    // return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=hostcount',
+    // this.httpOptions).catch(this.handleError);
   }
 
   getServiceCount() {
-    return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=servicecount',
+    return this.http.get<any>('/assets/serviceCount.json',
     this.httpOptions).catch(this.handleError);
+    // return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=servicecount',
+    // this.httpOptions).catch(this.handleError);
   }
 
   getPerformanceData() {

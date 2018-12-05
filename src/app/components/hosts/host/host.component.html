@@ -2,9 +2,6 @@
   <div class="col-sm-3 row-div" [class.status-up]="currentHost.status == 2" [class.status-down]="currentHost.status == 4" >
     {{currentHost.name}}
   </div>
-  <!-- <div class="d-none d-sm-block col-sm-1 text-center row-div" [class.status-up]="currentHost.status == 2" [class.status-down]="currentHost.status == 4" >
-    {{currentHost.txtStatus}}
-  </div> -->
   <div class="d-none d-sm-block col-sm-1 row-div status-up text-center">
       {{currentHost.servicePassCount}}
   </div>
@@ -21,20 +18,7 @@
 <div class="row" *ngIf="currentHost.showDetails">
     <div class="col-sm-12">
       <div *ngFor="let service of currentHost.services; let i = index">
-          <div class="row">
-              <div class="d-none d-sm-block col-sm-2 row-empty">
-                  &nbsp;
-              </div>
-            <div class="col-sm-3 row-div" [class.status-up]="service.status == 2" [class.status-down]="service.status == 4"  >
-              {{service.description}}
-            </div>
-            <div class="col-sm-2 row-div row-bg" >
-                {{service.last_check | date:'short' }}
-            </div>
-            <div class="col-sm-5 row-div row-bg" >
-                {{service.plugin_output}}
-            </div>
-          </div>
+        <app-service [service]="service" [index]="i"></app-service>
         </div>
   </div>
 </div>

@@ -1,0 +1,26 @@
+{
+    "format_version": 0,
+    "result": {
+      "query_time": 1544041615000,
+      "cgi": "statusjson.cgi",
+      "user": "nagiosadmin",
+      "query": "hostcount",
+      "query_status": "released",
+      "program_start": 1544036202000,
+      "last_data_update": 1544041612000,
+      "type_code": 0,
+      "type_text": "Success",
+      "message": ""
+    },
+    "data": {
+      "selectors": {
+        
+      },
+      "count": {
+        "up": 5,
+        "down": 0,
+        "unreachable": 0,
+        "pending": 0
+      }
+    }
+  }

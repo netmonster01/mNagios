@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NagiosService } from 'src/app/services';
-import { Host } from 'src/app/models';
-import { Count } from 'src/app/models/count';
+import { Host, Service, HostCount, Count } from '../../models';
 
 @Component({
   selector: 'app-hosts',
@@ -12,21 +11,32 @@ import { Count } from 'src/app/models/count';
 export class HostsComponent implements OnInit {
 
   constructor(private nagios: NagiosService) { }
+
   hostsList: Host [] = [];
   hosts: any;
-  services: any[] = [];
+  servicesList: Service [] = [];
   host: Host;
   counts: Count;
+  hostCounts: HostCount;
   showAddNew = false;
+
   ngOnInit() {
 
     this.getServices();
-    this.getCounts();
-
+    this.getServiceCounts();
+    this.getHostCounts();
   }
 
-  getCounts(): any {
+  getServiceCounts(): any {
     this.nagios.getServiceCount().subscribe((counts: any) => this.processCounts(counts));
+  }
+
+  getHostCounts(): any {
+    this.nagios.getHostCount().subscribe((counts: any) => this.processHostCounts(counts));
+  }
+
+  processHostCounts(counts: any): void {
+    this.hostCounts = counts.data.count;
   }
 
   processCounts(counts: any): void {
@@ -37,26 +47,34 @@ export class HostsComponent implements OnInit {
     this.nagios.getServices().subscribe((services: any) => this.processServices(services));
   }
 
-  processServices(services: any): void {
-    if (services) {
-      const entries = Object.entries(services.data.servicelist);
-      const values = Object.values(services.data.servicelist);
+  processServices(result: any): void {
+    if (result) {
+      const values = Object.values(result.data.servicelist);
       const serviceList = values;
       serviceList.forEach((item, index) => {
        Object.entries(item).forEach((subitem, subindex) => {
-        this.services.push(subitem[1]);
+        // convert to service
+        const service  = <Service> {
+          last_check: subitem[1].last_check,
+          plugin_output: subitem[1].plugin_output,
+          status: subitem[1].status,
+          host_name: subitem[1].host_name,
+          description: subitem[1].description
+        };
+        // push into our service list
+        this.servicesList.push(service);
         });
       });
      this.getHosts();
     }
   }
 
-  getHostServices(hostname: string) {
-    const services = this.services.filter(x => x.host_name === hostname);
+  getHostServices(hostname: string): Service [] {
+    const services = this.servicesList.filter(x => x.host_name === hostname);
     return services;
   }
 
-  submitNewHost() {
+  submitNewHost(): void {
     this.nagios.addHost(this.host).subscribe((result: any) => this.processAddHost(result));
   }
 
@@ -64,17 +82,19 @@ export class HostsComponent implements OnInit {
     console.log(result);
   }
 
-  getHosts() {
+  getHosts(): void {
     this.nagios.getHosts().subscribe((hosts: any) => this.processHosts(hosts));
   }
 
-  processHosts(hosts: any): void {
-    if (hosts) {
-      // const entries = Object.entries(hosts.data.hostlist);
-      const values = Object.values(hosts.data.hostlist);
-      this.hosts = values;
+  processHosts(result: any): void {
+
+    if (result) {
+
+      this.hosts = Object.values(result.data.hostlist);
       this.hosts.forEach((item, index) => {
+        // get a list of services and attach them to the host object
         item.services = this.getHostServices(item.name);
+        // convert to host
         const host  = <Host>{
           name: item.name,
           services: [] = item.services,
@@ -85,13 +105,9 @@ export class HostsComponent implements OnInit {
           plugin_output: item.plugin_output,
           status: item.status
         };
-        console.log(host);
+        // console.log(host);
         this.hostsList.push(host);
       });
     }
-  }
-
-  getStatus(status: number) {
-    return status === 2 ? 'Up' : 'Down';
   }
 }
