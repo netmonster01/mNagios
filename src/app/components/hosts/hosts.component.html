@@ -19,9 +19,19 @@
  &nbsp;
 </div>
 </div>
+<div class="container" *ngIf="hostCounts">
+    <h1>Tactical Overview</h1>
+    <div class="row">
+      <div class="col-sm-2 services row-div">Hosts</div>
+      <div class="col-sm-2 ok text-center row-div">{{ hostCounts.up }}</div>
+      <div class="col-sm-2 critical text-center row-div" >{{ hostCounts.down }}</div>
+      <div class="col-sm-2 unknown text-center row-div">{{ hostCounts.unreachable }}</div>
+      <div class="col-sm-2 pending text-center row-div">{{ hostCounts.pending }}</div>
+      <div class="col-sm-2 services row-div"> &nbsp;</div>
+    </div>
+</div>
 <div class="container" *ngIf="counts">
-  
-  <h1>Services</h1>
+
   <div class="row">
     <div class="col-sm-2 services row-div">Services</div>
     <div class="col-sm-2 ok text-center row-div">{{ counts.ok }}</div>
@@ -31,6 +41,7 @@
     <div class="col-sm-2 pending text-center row-div">{{ counts.pending }}</div>
   </div>
 </div>
+
 <div class="container" *ngIf="hostsList">
   <h1>Hosts</h1>
   <div *ngFor="let host of hostsList" >
