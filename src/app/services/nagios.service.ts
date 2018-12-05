@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Host, Service } from '../models';
-import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root'
@@ -26,30 +25,11 @@ export class NagiosService {
     this.httpOptions).catch(this.handleError);
   }
 
-  // getHosts() {
-  //   return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=hostlist&details=true',
-  //   this.httpOptions).catch(this.handleError).map(function(res) {
-  //     return <Host> res.json();
-  //   });
-  // }
-
-  // getServices() {
-  //   return this.http.get<any>('/assets/services.json',
-  //   this.httpOptions).pipe((
-  //     map(data => {
-  //       console.log(data, data.data.servicelist);
-  //       return data.data.servicelist.map(element => {
-  //         return { hostName: element['name'], viewValue: element['name'] };
-  //       });
-  //     })
-  //   )).catch(this.handleError);
-  //   // return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=servicelist&details=true',
-  //   // this.httpOptions).catch(this.handleError);
-  // }
-
   getServices() {
     return this.http.get<any>('/assets/services.json',
     this.httpOptions).catch(this.handleError);
+    // return this.http.get<any>('/nagios/cgi-bin/statusjson.cgi?query=servicelist&details=true',
+    // this.httpOptions).catch(this.handleError);
   }
 
 
@@ -89,6 +69,11 @@ export class NagiosService {
 
   addHost(host: Host) {
     return this.http.get<any>('/nagios/cgi-bin/addHost1.py?host_name=' + host.hostName + '&ip_address=' + host.ipAddress,
+    this.httpOptions).catch(this.handleError);
+  }
+
+  removeHost(host: Host) {
+    return this.http.get<any>('/nagios/cgi-bin/deleteHost.py?host_name=' + host.hostName,
     this.httpOptions).catch(this.handleError);
   }
 
